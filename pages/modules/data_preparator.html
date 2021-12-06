@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Data Preparator &mdash; RePlay  documentation</title>
+      <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+      <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Distributions" href="distributions.html" />
+    <link rel="prev" title="Scenarios" href="scenarios.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+            <a href="../../index.html" class="icon icon-home"> RePlay
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../spark.html">Settings</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../modules.html">Modules</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="filters.html">Filters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="time.html">Time Smoothing</a></li>
+<li class="toctree-l2"><a class="reference internal" href="models.html">Models</a></li>
+<li class="toctree-l2"><a class="reference internal" href="saver.html">Serializer</a></li>
+<li class="toctree-l2"><a class="reference internal" href="splitters.html">Splitters</a></li>
+<li class="toctree-l2"><a class="reference internal" href="metrics.html">Metrics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="experiment.html">Compare Results</a></li>
+<li class="toctree-l2"><a class="reference internal" href="scenarios.html">Scenarios</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Data Preparator</a></li>
+<li class="toctree-l2"><a class="reference internal" href="distributions.html">Distributions</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../useful.html">Useful Info</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">RePlay</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+          <li><a href="../modules.html">Modules</a> &raquo;</li>
+      <li>Data Preparator</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/pages/modules/data_preparator.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <div class="section" id="module-replay.data_preparator">
+<span id="id1"></span><span id="data-preparator"></span><h1>Data Preparator<a class="headerlink" href="#module-replay.data_preparator" title="Permalink to this headline"></a></h1>
+<p>Contains classes <code class="docutils literal notranslate"><span class="pre">DataPreparator</span></code> and <code class="docutils literal notranslate"><span class="pre">CatFeaturesTransformer</span></code>.
+<code class="docutils literal notranslate"><span class="pre">DataPreparator</span></code> is used to transform DataFrames to a library format.</p>
+<p><cite>CatFeaturesTransformer`</cite> transforms cateforical features with one-hot encoding.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="replay.data_preparator.DataPreparator">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">replay.data_preparator.</span></span><span class="sig-name descname"><span class="pre">DataPreparator</span></span><a class="headerlink" href="#replay.data_preparator.DataPreparator" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms data to a library format. If both user id and item id are provided, DataFrame
+is trated as a log, otherwise as a feature DataFrame.</p>
+<p>Examples:</p>
+<p>Loading log DataFrame</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">replay.data_preparator</span> <span class="kn">import</span> <span class="n">DataPreparator</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;item_id&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;relevance&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">5</span><span class="p">]}</span>
+<span class="gp">... </span>                   <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">DataPreparator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">log</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">columns_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="s2">&quot;user_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                          <span class="s2">&quot;item_id&quot;</span><span class="p">:</span> <span class="s2">&quot;item_id&quot;</span><span class="p">,</span>
+<span class="gp">... </span>                                          <span class="s2">&quot;relevance&quot;</span><span class="p">:</span> <span class="s2">&quot;relevance&quot;</span><span class="p">}</span>
+<span class="gp">... </span>                            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span>
+<span class="go">+-------+-------+---------+-------------------+</span>
+<span class="go">|user_id|item_id|relevance|          timestamp|</span>
+<span class="go">+-------+-------+---------+-------------------+</span>
+<span class="go">|      2|      1|      5.0|1999-05-01 00:00:00|</span>
+<span class="go">|      2|      2|      5.0|1999-05-01 00:00:00|</span>
+<span class="go">+-------+-------+---------+-------------------+</span>
+<span class="go">only showing top 2 rows</span>
+</pre></div>
+</div>
+<p>Loading user features</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">replay.data_preparator</span> <span class="kn">import</span> <span class="n">DataPreparator</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span> <span class="s2">&quot;user1&quot;</span><span class="p">,</span> <span class="s2">&quot;user2&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;f0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;feature1&quot;</span><span class="p">,</span><span class="s2">&quot;feature2&quot;</span><span class="p">,</span><span class="s2">&quot;feature1&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="s2">&quot;center&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">]}</span>
+<span class="gp">... </span>            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">DataPreparator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">log</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">columns_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">},</span>
+<span class="gp">... </span>                           <span class="n">features_columns</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;f0&quot;</span><span class="p">]</span>
+<span class="gp">... </span>                            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">+-------+--------+</span>
+<span class="go">|user_id|      f0|</span>
+<span class="go">+-------+--------+</span>
+<span class="go">|  user1|feature1|</span>
+<span class="go">|  user1|feature2|</span>
+<span class="go">|  user2|feature1|</span>
+<span class="go">+-------+--------+</span>
+</pre></div>
+</div>
+<p>If feature_columns is not set, all extra columns are trated as feature columns</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">replay.data_preparator</span> <span class="kn">import</span> <span class="n">DataPreparator</span>
+<span class="go">&gt;&gt;&gt;</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">log</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;user&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;user1&quot;</span><span class="p">,</span> <span class="s2">&quot;user1&quot;</span><span class="p">,</span> <span class="s2">&quot;user2&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;f0&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;feature1&quot;</span><span class="p">,</span><span class="s2">&quot;feature2&quot;</span><span class="p">,</span><span class="s2">&quot;feature1&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;f1&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="s2">&quot;left&quot;</span><span class="p">,</span><span class="s2">&quot;center&quot;</span><span class="p">],</span>
+<span class="gp">... </span>                    <span class="s2">&quot;ts&quot;</span><span class="p">:</span> <span class="p">[</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">,</span><span class="s2">&quot;2019-01-01&quot;</span><span class="p">]}</span>
+<span class="gp">... </span>            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">dp</span> <span class="o">=</span> <span class="n">DataPreparator</span><span class="p">()</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span> <span class="o">=</span> <span class="n">dp</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">log</span><span class="p">,</span>
+<span class="gp">... </span>                           <span class="n">columns_names</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;user_id&quot;</span><span class="p">:</span> <span class="s2">&quot;user&quot;</span><span class="p">}</span>
+<span class="gp">... </span>                            <span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">correct_log</span><span class="o">.</span><span class="n">show</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="go">+-------+--------+------+----------+</span>
+<span class="go">|user_id|      f0|    f1|        ts|</span>
+<span class="go">+-------+--------+------+----------+</span>
+<span class="go">|  user1|feature1|  left|2019-01-01|</span>
+<span class="go">|  user1|feature2|  left|2019-01-01|</span>
+<span class="go">|  user2|feature1|center|2019-01-01|</span>
+<span class="go">+-------+--------+------+----------+</span>
+</pre></div>
+</div>
+<dl class="py method">
+<dt class="sig sig-object py" id="replay.data_preparator.DataPreparator.base_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">base_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">features_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#replay.data_preparator.DataPreparator.base_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Get base columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="replay.data_preparator.DataPreparator.feature_columns">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">feature_columns</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataframe</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_columns</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#replay.data_preparator.DataPreparator.feature_columns" title="Permalink to this definition"></a></dt>
+<dd><p>Get feature columns</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Tuple</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="replay.data_preparator.DataPreparator.transform">
+<span class="sig-name descname"><span class="pre">transform</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">columns_names</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">path</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format_type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">date_format</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">features_columns</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">reader_kwargs</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#replay.data_preparator.DataPreparator.transform" title="Permalink to this definition"></a></dt>
+<dd><p>Transforms log, user or item features into a Spark DataFrame
+<code class="docutils literal notranslate"><span class="pre">[user_id,</span> <span class="pre">user_id,</span> <span class="pre">timestamp,</span> <span class="pre">relevance]</span></code>,
+<code class="docutils literal notranslate"><span class="pre">[user_id,</span> <span class="pre">*features]</span></code>, or  <code class="docutils literal notranslate"><span class="pre">[item_id,</span> <span class="pre">*features]</span></code>.
+Input is either file of <code class="docutils literal notranslate"><span class="pre">format_type</span></code>
+at <code class="docutils literal notranslate"><span class="pre">path</span></code>, or <code class="docutils literal notranslate"><span class="pre">pandas.DataFrame</span></code> or <code class="docutils literal notranslate"><span class="pre">spark.DataFrame</span></code>.
+:type columns_names: <code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]
+:param columns_names: dictionary mapping “default column name:
+column name in input DataFrame”
+<code class="docutils literal notranslate"><span class="pre">user_id</span></code> and <code class="docutils literal notranslate"><span class="pre">item_id</span></code> mappings are required,
+<code class="docutils literal notranslate"><span class="pre">timestamp</span></code> and``relevance`` are optional.</p>
+<blockquote>
+<div><p>Mapping specifies the meaning of the DataFrame:
+- Both <code class="docutils literal notranslate"><span class="pre">[user_id,</span> <span class="pre">item_id]</span></code> are present, then it’s log
+- Only <code class="docutils literal notranslate"><span class="pre">[user_id]</span></code> is present, then it’s user features
+- Only <code class="docutils literal notranslate"><span class="pre">[item_id]</span></code> is present, then it’s item features</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code>, <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – DataFrame to process</p></li>
+<li><p><strong>path</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – path to data</p></li>
+<li><p><strong>format_type</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – file type, one of <code class="docutils literal notranslate"><span class="pre">[csv</span> <span class="pre">,</span> <span class="pre">parquet</span> <span class="pre">,</span> <span class="pre">json</span> <span class="pre">,</span> <span class="pre">table]</span></code></p></li>
+<li><p><strong>date_format</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – format for the <code class="docutils literal notranslate"><span class="pre">timestamp</span></code></p></li>
+<li><p><strong>features_columns</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>], <code class="xref py py-obj docutils literal notranslate"><span class="pre">None</span></code>]) – names of the feature columns</p></li>
+<li><p><strong>reader_kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]) – extra arguments passed to
+<code class="docutils literal notranslate"><span class="pre">spark.read.&lt;format&gt;(path,</span> <span class="pre">**reader_kwargs)</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">DataFrame</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>processed DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="scenarios.html" class="btn btn-neutral float-left" title="Scenarios" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="distributions.html" class="btn btn-neutral float-right" title="Distributions" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2021, Sberbank AI Laboratory.</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
